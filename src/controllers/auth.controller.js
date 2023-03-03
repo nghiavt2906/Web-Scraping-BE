@@ -57,7 +57,39 @@ const signup = async (req, res) => {
   }
 };
 
+const refreshToken = async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies.token) return res.sendStatus(401);
+
+  const refreshToken = cookies.token;
+
+  try {
+    const decoded = await jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const accessToken = await jwt.sign(
+      { username: decoded.username, id: decoded._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({ accessToken });
+  } catch (error) {
+    return res.sendStatus(403);
+  }
+};
+
+const logout = async (req, res) => {
+  res.clearCookie("token", { httpOnly: true });
+  res.sendStatus(204);
+};
+
 module.exports = {
   signup,
   login,
+  refreshToken,
+  logout,
 };
