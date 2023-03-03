@@ -1,10 +1,9 @@
 const db = require("../db");
 
 const findUserByUsername = async (username) => {
-  const result = await db.query(
-    "SELECT id, username FROM users WHERE username = $1",
-    [username]
-  );
+  const result = await db.query("SELECT * FROM users WHERE username = $1", [
+    username,
+  ]);
   return result.rows.length > 0 ? result.rows[0] : null;
 };
 
