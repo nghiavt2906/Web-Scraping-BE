@@ -32,7 +32,7 @@ const login = async (req, res) => {
       maxAge: 3 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ username, accessToken });
   } catch (error) {
     console.log(`Error: ${error}`);
     res.status(500).send("Something went wrong");
