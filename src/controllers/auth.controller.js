@@ -16,13 +16,13 @@ const login = async (req, res) => {
       return res.status(400).send("Username or password is invalid!");
 
     const accessToken = await jwt.sign(
-      { username, id: userInDb._id },
+      { username, id: userInDb.id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1h" }
     );
 
     const refreshToken = await jwt.sign(
-      { username, id: userInDb._id },
+      { username, id: userInDb.id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "3h" }
     );
@@ -73,7 +73,7 @@ const refreshToken = async (req, res) => {
     );
 
     const accessToken = await jwt.sign(
-      { username: decoded.username, id: decoded._id },
+      { username: decoded.username, id: decoded.id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1h" }
     );

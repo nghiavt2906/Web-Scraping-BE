@@ -2,7 +2,7 @@ const reportService = require("../services/report");
 
 const uploadCsv = async (req, res) => {
   const filename = req.file.filename;
-  const reportData = { name: filename.split(".")[0], userId: 123 };
+  const reportData = { name: filename.split(".")[0], userId: req.user.id };
 
   try {
     await reportService.handleCsvUpload(`./uploads/${filename}`, reportData);

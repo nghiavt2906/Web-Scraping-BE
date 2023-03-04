@@ -4,11 +4,13 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const credentials = require("./middlewares/credentials");
 const corsOptions = require("./config/corsOptions");
 
 const authRoute = require("./routes/auth.route");
 const reportRoute = require("./routes/report.route");
+
+const credentials = require("./middlewares/credentials");
+const checkAuth = require("./middlewares/checkAuth");
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(express.json({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
+app.use(checkAuth);
 app.use("/api/report", reportRoute);
 
 module.exports = app;
