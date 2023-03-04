@@ -29,6 +29,8 @@ const login = async (req, res) => {
 
     res.cookie("token", refreshToken, {
       httpOnly: true,
+      sameSite: "None",
+      secure: true,
       maxAge: 3 * 60 * 60 * 1000,
     });
 
@@ -83,7 +85,7 @@ const refreshToken = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  res.clearCookie("token", { httpOnly: true });
+  res.clearCookie("token", { httpOnly: true, sameSite: "None", secure: true });
   res.sendStatus(204);
 };
 
