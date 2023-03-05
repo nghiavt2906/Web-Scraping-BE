@@ -13,6 +13,14 @@ const uploadCsv = async (req, res) => {
   }
 };
 
+const getListOfKeywords = async (req, res) => {
+  const { id } = req.params;
+  const keywords = await reportService.getKeywordsByReportId(id, req.user.id);
+  let data = keywords.length > 0 ? { id, keywords } : {};
+  return res.json(data);
+};
+
 module.exports = {
   uploadCsv,
+  getListOfKeywords,
 };

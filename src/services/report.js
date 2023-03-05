@@ -32,7 +32,17 @@ const createReport = async (report) => {
   return result.rows[0];
 };
 
+const getKeywordsByReportId = async (id, userId) => {
+  const query = `SELECT B.id, B.keyword
+    FROM reports AS A, search_results AS B
+    WHERE A.id = $1 AND A.userId = $2`;
+
+  const result = await db.query(query, [id, userId]);
+  return result.rows;
+};
+
 module.exports = {
   handleCsvUpload,
   createReport,
+  getKeywordsByReportId,
 };
