@@ -6,6 +6,6 @@ const reportController = require("../controllers/report.controller");
 
 const router = express.Router();
 
-router.post("/upload", upload.single("upload-csv"), reportController.uploadCsv);
+router.post("/upload", upload.single("file"), reportController.uploadCsv);
 
 module.exports = router;

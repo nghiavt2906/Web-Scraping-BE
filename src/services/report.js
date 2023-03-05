@@ -1,16 +1,25 @@
 const db = require("../db");
 const readCsv = require("../utils/readCsv");
 const { initSearchResults } = require("./searchResults");
+const SEARCH_STATUS = require("../constants/searchStatus");
+const { scrapeKeywords } = require("./crawler");
 
 const handleCsvUpload = async (csvPath, reportData) => {
   const insertedReport = await createReport(reportData);
+
   const keywords = await readCsv(csvPath);
   const searchResults = keywords.map((keyword) => [
     keyword,
-    "processing",
+    SEARCH_STATUS.PROCESSING,
     insertedReport.id,
   ]);
-  await initSearchResults(searchResults);
+  const insertedSearchResults = await initSearchResults(searchResults);
+
+  const processKeywords = insertedSearchResults.map((item) => ({
+    id: item.id,
+    text: item.keyword,
+  }));
+  scrapeKeywords(processKeywords);
 };
 
 const createReport = async (report) => {
