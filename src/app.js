@@ -8,6 +8,7 @@ const corsOptions = require("./config/corsOptions");
 
 const authRoute = require("./routes/auth.route");
 const reportRoute = require("./routes/report.route");
+const searchResultsRoute = require("./routes/searchResults.route");
 
 const credentials = require("./middlewares/credentials");
 const checkAuth = require("./middlewares/checkAuth");
@@ -23,5 +24,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use(checkAuth);
 app.use("/api/report", reportRoute);
+app.use("/api/searchResults", searchResultsRoute);
 
 module.exports = app;

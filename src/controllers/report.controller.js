@@ -15,9 +15,14 @@ const uploadCsv = async (req, res) => {
 
 const getListOfKeywords = async (req, res) => {
   const { id } = req.params;
-  const keywords = await reportService.getKeywordsByReportId(id, req.user.id);
-  let data = keywords.length > 0 ? { id, keywords } : {};
-  return res.json(data);
+  try {
+    const keywords = await reportService.getKeywordsByReportId(id, req.user.id);
+    let data = keywords.length > 0 ? { id, keywords } : {};
+    return res.json(data);
+  } catch (error) {
+    console.log(`Error: ${error}`);
+    return res.status(500).send("Something went wrong");
+  }
 };
 
 module.exports = {
