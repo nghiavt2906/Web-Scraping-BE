@@ -1,0 +1,6 @@
+const SEARCH_STATUS = {
+  PROCESSING: "PROCESSING",
+  SUCCESS: "SUCCESS",
+};
+
+module.exports = SEARCH_STATUS;
