@@ -42,8 +42,36 @@ const getKeywordsByReportId = async (id, userId) => {
   return result.rows;
 };
 
+const getUserReportsWithKeywords = async (userId) => {
+  const sql = `SELECT A.id AS "reportId", A.name, B.id AS "searchResultId", B.keyword, B.status
+    FROM reports AS A, search_results AS B 
+    WHERE A.userId = $1 AND A.id = B.reportId
+    ORDER BY A.createdDate DESC, B.id`;
+  const result = await db.query(sql, [userId]);
+
+  const data = {};
+  for (const row of result.rows) {
+    const { reportId, name, searchResultId, keyword, status } = row;
+    const newKeyword = { id: searchResultId, keyword, status };
+
+    if (name in data) {
+      data[name].keywords.push(newKeyword);
+    } else {
+      data[name] = { id: reportId, name, keywords: [newKeyword] };
+    }
+  }
+
+  const reports = [];
+  for (const filename of Object.keys(data)) {
+    reports.push(data[filename]);
+  }
+
+  return reports;
+};
+
 module.exports = {
   handleCsvUpload,
   createReport,
   getKeywordsByReportId,
+  getUserReportsWithKeywords,
 };

@@ -6,12 +6,17 @@ const storage = multer.diskStorage({
     callBack(null, "./uploads/");
   },
   filename: (req, file, callBack) => {
+    const newDate = new Date();
+    const fileName = path.parse(file.originalname).name;
+    const currentDateString = newDate.toLocaleDateString().replaceAll("/", "_");
+    const currentTimeString = newDate
+      .toLocaleTimeString("en-IT")
+      .replaceAll(":", "_");
+    const fileExt = path.extname(file.originalname);
+
     callBack(
       null,
-      path.parse(file.originalname).name +
-        "-" +
-        Date.now() +
-        path.extname(file.originalname)
+      `${fileName}-${currentDateString}-${currentTimeString}${fileExt}`
     );
   },
 });

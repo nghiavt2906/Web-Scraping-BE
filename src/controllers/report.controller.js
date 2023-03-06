@@ -48,8 +48,19 @@ const getSearchResultsByReport = async (req, res) => {
   }
 };
 
+const getUserReports = async (req, res) => {
+  try {
+    const reports = await reportService.getUserReportsWithKeywords(req.user.id);
+    return res.json(reports);
+  } catch (error) {
+    console.log(`Error: ${error}`);
+    return res.status(500).send("Something went wrong");
+  }
+};
+
 module.exports = {
   uploadCsv,
   getListOfKeywords,
   getSearchResultsByReport,
+  getUserReports,
 };
