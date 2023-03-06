@@ -20,6 +20,8 @@ const handleCsvUpload = async (csvPath, reportData) => {
     text: item.keyword,
   }));
   scrapeKeywords(processKeywords);
+
+  return insertedReport;
 };
 
 const createReport = async (report) => {

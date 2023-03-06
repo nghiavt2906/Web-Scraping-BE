@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use(checkAuth);
-app.use("/api/report", reportRoute);
-app.use("/api/searchResults", searchResultsRoute);
+app.use("/api/reports", reportRoute);
+app.use("/api/search-results", searchResultsRoute);
 
 module.exports = app;

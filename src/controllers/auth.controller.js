@@ -78,7 +78,7 @@ const refreshToken = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ username: decoded.username, accessToken });
   } catch (error) {
     return res.sendStatus(403);
   }

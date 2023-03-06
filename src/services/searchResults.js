@@ -26,14 +26,23 @@ const updateSearchResult = async (searchResult) => {
 };
 
 const getSearchResultById = async (id, userId) => {
-  const sql = `SELECT * FROM search_results 
-    WHERE id = $1 AND reportId = (SELECT id FROM reports WHERE userId = $2)`;
+  const sql = `SELECT id, keyword, status, totalSearchResults AS "totalSearchResults", totalLinks AS "totalLinks", totalAdwordsAdvertisers AS "totalAdwordsAdvertisers", htmlCode AS "htmlCode" FROM search_results 
+    WHERE id = $1 AND reportId IN (SELECT id FROM reports WHERE userId = $2)`;
   const result = await db.query(sql, [id, userId]);
   return result.rows.length > 0 ? result.rows[0] : {};
+};
+
+const getSearchResultsByReportId = async (reportId, userId, cols) => {
+  const sql = `SELECT ${cols.join(",")} FROM search_results 
+    WHERE reportId = $1 AND reportId IN (SELECT id FROM reports WHERE userId = $2)
+    ORDER BY id`;
+  const result = await db.query(sql, [reportId, userId]);
+  return result.rows;
 };
 
 module.exports = {
   initSearchResults,
   updateSearchResult,
   getSearchResultById,
+  getSearchResultsByReportId,
 };
