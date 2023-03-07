@@ -19,7 +19,10 @@ const handleCsvUpload = async (csvPath, reportData) => {
     id: item.id,
     text: item.keyword,
   }));
-  scrapeKeywords(processKeywords);
+
+  if (process.env.NODE_ENV !== "test") {
+    scrapeKeywords(processKeywords);
+  }
 
   return insertedReport;
 };

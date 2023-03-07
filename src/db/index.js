@@ -1,4 +1,5 @@
 const pool = require("../config/database");
+const { initTablesQuery, createTables } = require("../constants/sqlQueries");
 
 pool.on("error", (err, client) => {
   console.log("Postgres connection error : " + err);
@@ -12,7 +13,7 @@ pool.on("error", (err, client) => {
   });
 });
 
-pool.connect((err, client) => {
+pool.connect(async (err, client) => {
   if (err) {
     console.error("connection error", err.stack);
     process.exit(1);
@@ -22,6 +23,12 @@ pool.connect((err, client) => {
     client.on("error", (err) => {
       console.log("Postgres client connection error : " + err);
     });
+
+    if (process.env.NODE_ENV === "test") {
+      await pool.query(initTablesQuery);
+    } else {
+      await pool.query(createTables);
+    }
   }
 });
 

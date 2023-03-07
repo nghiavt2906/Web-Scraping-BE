@@ -24,7 +24,7 @@ const getListOfKeywords = async (req, res) => {
       reportId,
       req.user.id
     );
-    let data = keywords.length > 0 ? { id: reportId, keywords } : {};
+    let data = keywords.length > 0 ? { id: parseInt(reportId), keywords } : {};
     return res.json(data);
   } catch (error) {
     console.log(`Error: ${error}`);
