@@ -14,7 +14,7 @@ puppeteer.use(StealthPlugin());
 
 const scrapeKeywords = async (keywords) => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
   });
 
   let page = await pageActions.createNewPage(browser);
