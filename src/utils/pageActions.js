@@ -29,9 +29,12 @@ const createNewPage = async (browser) => {
   return page;
 };
 
-const searchAtMainPage = async (page, text) => {
+const goToGoogle = async (page) => {
   await page.goto("https://google.com/?hl=en");
   await page.waitForTimeout(3 * 1000);
+};
+
+const searchAtMainPage = async (page, text) => {
   await page.type("input[type='text']", text);
   await page.waitForTimeout(2 * 1000);
   await page.click("input[class='gNO89b']"); // click search btn
@@ -69,6 +72,7 @@ const getSearchResultInfo = async (page) => {
 };
 
 module.exports = {
+  goToGoogle,
   createNewPage,
   searchAtMainPage,
   searchAtResultPage,
