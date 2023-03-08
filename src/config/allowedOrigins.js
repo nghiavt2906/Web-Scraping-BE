@@ -1,3 +1,3 @@
-const allowedOrigins = ["https://keywords-analyzer.onrender.com"];
+const allowedOrigins = [process.env.CLIENT_HOST];
 
 module.exports = allowedOrigins;
