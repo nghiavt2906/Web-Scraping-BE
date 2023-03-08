@@ -8,9 +8,11 @@ const storage = multer.diskStorage({
   filename: (req, file, callBack) => {
     const newDate = new Date();
     const fileName = path.parse(file.originalname).name;
-    const currentDateString = newDate.toLocaleDateString().replaceAll("/", "_");
+    const currentDateString = newDate
+      .toLocaleDateString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" })
+      .replaceAll("/", "_");
     const currentTimeString = newDate
-      .toLocaleTimeString("en-IT")
+      .toLocaleTimeString("en-GB", { timeZone: "Asia/Ho_Chi_Minh" })
       .replaceAll(":", "_");
     const fileExt = path.extname(file.originalname);
 
