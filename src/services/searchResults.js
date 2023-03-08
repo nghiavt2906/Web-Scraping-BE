@@ -1,43 +1,71 @@
-const format = require("pg-format");
-
 const db = require("../db");
 
-const initSearchResults = async (searchResults) => {
-  const sql = `
-    ${format(
-      "INSERT INTO search_results (keyword, status, reportId) VALUES %L",
-      searchResults
-    )} RETURNING id, keyword`;
-  const result = await db.query(sql);
-  return result.rows;
+const initSearchResults = async (searchResults, reportId) => {
+  await db.searchResult.createMany({
+    data: searchResults,
+  });
+
+  const results = await db.searchResult.findMany({
+    where: { reportId },
+    select: { id: true, keyword: true },
+  });
+
+  return results;
 };
 
 const updateSearchResult = async (searchResult) => {
   const { id, status, totalResults, totalLinks, totalAds, html } = searchResult;
-  const sql = `UPDATE search_results SET 
-        status = $1, 
-        totalSearchResults = $2, 
-        totalLinks = $3, 
-        totalAdwordsAdvertisers = $4, 
-        htmlCode = $5 
-        WHERE id = $6`;
 
-  await db.query(sql, [status, totalResults, totalLinks, totalAds, html, id]);
+  await db.searchResult.update({
+    where: { id },
+    data: {
+      status,
+      totalSearchResults: totalResults,
+      totalLinks,
+      totalAdwordsAdvertisers: totalAds,
+      htmlCode: html,
+    },
+  });
 };
 
 const getSearchResultById = async (id, userId) => {
-  const sql = `SELECT id, keyword, status, totalSearchResults AS "totalSearchResults", totalLinks AS "totalLinks", totalAdwordsAdvertisers AS "totalAdwordsAdvertisers", htmlCode AS "htmlCode" FROM search_results 
-    WHERE id = $1 AND reportId IN (SELECT id FROM reports WHERE userId = $2)`;
-  const result = await db.query(sql, [id, userId]);
-  return result.rows.length > 0 ? result.rows[0] : {};
+  const reports = await db.report.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      searchResults: { where: { id } },
+    },
+  });
+
+  for (const report of reports) {
+    if (report.searchResults.length > 0) {
+      return report.searchResults[0];
+    }
+  }
+
+  return {};
 };
 
-const getSearchResultsByReportId = async (reportId, userId, cols) => {
-  const sql = `SELECT ${cols.join(",")} FROM search_results 
-    WHERE reportId = $1 AND reportId IN (SELECT id FROM reports WHERE userId = $2)
-    ORDER BY id`;
-  const result = await db.query(sql, [reportId, userId]);
-  return result.rows;
+const getSearchResultsByReportId = async (reportId, userId) => {
+  const report = await db.report.findFirst({ where: { id: reportId, userId } });
+  if (!report) return [];
+
+  const results = await db.searchResult.findMany({
+    where: { reportId },
+    orderBy: [
+      {
+        id: "asc",
+      },
+    ],
+    select: {
+      id: true,
+      keyword: true,
+      status: true,
+    },
+  });
+
+  return results;
 };
 
 module.exports = {

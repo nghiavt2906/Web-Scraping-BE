@@ -1,7 +1,7 @@
 const searchResultsService = require("../services/searchResults");
 
 const getSearchResultInformation = async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   try {
     const searchResult = await searchResultsService.getSearchResultById(
       id,
