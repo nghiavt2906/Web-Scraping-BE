@@ -10,9 +10,21 @@ const uploadCsv = async (req, res) => {
       `./uploads/${filename}`,
       reportData
     );
+
+    if (!report) {
+    }
+
     return res.json(report);
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(`Error: ${error.message}`);
+
+    switch (error.message) {
+      case "File.Size.Error":
+        return res
+          .status(400)
+          .send("File size must me from 1 to 100 keywords!");
+    }
+
     return res.status(500).send("Something went wrong");
   }
 };

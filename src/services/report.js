@@ -5,9 +5,14 @@ const SEARCH_STATUS = require("../constants/searchStatus");
 const { scrapeKeywords } = require("./crawler");
 
 const handleCsvUpload = async (csvPath, reportData) => {
+  const keywords = await readCsv(csvPath);
+
+  if (keywords.length > 100 || keywords.length === 0) {
+    throw new Error("File.Size.Error");
+  }
+
   const insertedReport = await createReport(reportData);
 
-  const keywords = await readCsv(csvPath);
   const searchResults = keywords.map((keyword) => ({
     keyword,
     status: SEARCH_STATUS.PROCESSING,
