@@ -59,6 +59,7 @@ const getSearchResultInfo = async (page) => {
     const totalLinks = document.querySelectorAll("a").length;
     const totalAds =
       document.querySelectorAll(".uEierd").length +
+      document.querySelectorAll(".twpSFc.mnr-c").length +
       Array.from(document.querySelectorAll(".mnr-c.pla-unit")).filter(
         (item) => item.className === "mnr-c pla-unit"
       ).length;
