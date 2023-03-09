@@ -22,7 +22,7 @@ const uploadCsv = async (req, res) => {
       case "File.Size.Error":
         return res
           .status(400)
-          .send("File size must me from 1 to 100 keywords!");
+          .send("File size must be from 1 to 100 keywords!");
     }
 
     return res.status(500).send("Something went wrong");
