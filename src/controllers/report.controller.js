@@ -18,13 +18,13 @@ const uploadCsv = async (req, res) => {
 };
 
 const getListOfKeywords = async (req, res) => {
-  const { reportId } = req.params;
+  const reportId = parseInt(req.params.reportId);
   try {
     const keywords = await reportService.getKeywordsByReportId(
       reportId,
       req.user.id
     );
-    let data = keywords.length > 0 ? { id: parseInt(reportId), keywords } : {};
+    let data = keywords.length > 0 ? { id: reportId, keywords } : {};
     return res.json(data);
   } catch (error) {
     console.log(`Error: ${error}`);
@@ -33,13 +33,12 @@ const getListOfKeywords = async (req, res) => {
 };
 
 const getSearchResultsByReport = async (req, res) => {
-  const { reportId } = req.params;
+  const reportId = parseInt(req.params.reportId);
 
   try {
     const searchResults = await searchResultsService.getSearchResultsByReportId(
       reportId,
-      req.user.id,
-      ["id", "keyword", "status"]
+      parseInt(req.user.id)
     );
     return res.json(searchResults);
   } catch (error) {
