@@ -1,9 +1,16 @@
 const path = require("path");
+const fs = require("fs");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-    callBack(null, "./uploads/");
+    const folderPath = "./uploads";
+
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath);
+    }
+
+    callBack(null, folderPath);
   },
   filename: (req, file, callBack) => {
     const newDate = new Date();
