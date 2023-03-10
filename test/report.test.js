@@ -47,7 +47,7 @@ describe("Report APIs", () => {
           expect.objectContaining({
             id: expect.any(Number),
             name: expect.any(String),
-            keywords: expect.any(Array),
+            searchResults: expect.any(Array),
           }),
         ])
       );

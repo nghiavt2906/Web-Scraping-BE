@@ -1,8 +1,8 @@
 const db = require("../db");
 const readCsv = require("../utils/readCsv");
-const { initSearchResults } = require("./searchResults");
+const searchResultService = require("./searchResults");
 const SEARCH_STATUS = require("../constants/searchStatus");
-const { scrapeKeywords } = require("./crawler");
+const Crawler = require("./crawler");
 
 const handleCsvUpload = async (csvPath, reportData) => {
   const keywords = await readCsv(csvPath);
@@ -20,7 +20,7 @@ const handleCsvUpload = async (csvPath, reportData) => {
     totalSearchResults: "",
     htmlCode: "",
   }));
-  const insertedSearchResults = await initSearchResults(
+  const insertedSearchResults = await searchResultService.initSearchResults(
     searchResults,
     insertedReport.id
   );
@@ -30,9 +30,8 @@ const handleCsvUpload = async (csvPath, reportData) => {
     text: item.keyword,
   }));
 
-  if (process.env.NODE_ENV !== "test") {
-    scrapeKeywords(processKeywords);
-  }
+  const crawler = new Crawler(searchResultService);
+  crawler.scrapeKeywords(processKeywords);
 
   return insertedReport;
 };

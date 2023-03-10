@@ -35,7 +35,11 @@ const goToGoogle = async (page) => {
 };
 
 const searchAtMainPage = async (page, text) => {
-  await page.type("input[type='text']", text);
+  try {
+    await page.type("input[type='text']", text);
+  } catch (error) {
+    await page.type("input[class='gLFyf']", text);
+  }
   await page.waitForTimeout(2 * 1000);
   await page.click("input[class='gNO89b']"); // click search btn
   await page.waitForNavigation({ waitUntil: "networkidle2" });
