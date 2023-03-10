@@ -5,7 +5,7 @@ const app = require("../src/app");
 
 describe("Authentication APIs", () => {
   describe("POST /api/auth/signup", () => {
-    const newUser = { username: "john", password: "123123" };
+    const newUser = { username: `john${Date.now()}`, password: "123123" };
 
     it("should signup successfully", async () => {
       const response = await request(app)
