@@ -9,7 +9,7 @@
 
 ## Run the application locally
 
-**Installation**\
+**Installation**
 
 - First of all, install all the required packages:
 
@@ -17,7 +17,7 @@
 npm install
 ```
 
-**Environment variables**\
+**Environment variables**
 
 - Next, add the `.env` file to root folder with the following keys:
 
@@ -43,7 +43,7 @@ npx prisma
 npx prisma migrate dev
 ```
 
-**Run the application**\
+**Run the application**
 
 - Run the application with the below command:
 
