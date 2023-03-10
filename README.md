@@ -4,19 +4,19 @@
 
 **In order to successfully run the application, you need:**
 
-1. Node.js installed on your machine with at least version 16 or specifically 16.13.2
+1. Node.js installed on your machine with at least version 16 (specifically 16.13.2)
 2. A PostgreSQL database server running
 
 ## Run the application locally
 
-**Installation**
+**Installation**\
 First of all, install all the required packages:
 
 ```
 npm install
 ```
 
-**Environment variables**
+**Environment variables**\
 Next, add the `.env` file to root folder with the following keys:
 
 ```shell
@@ -35,13 +35,13 @@ REFRESH_TOKEN_SECRET=/*Secret for refresh token*/
 npx prisma
 ```
 
-2. Next migrate Prisma data model to the database:
+2. Next migrate Prisma data models to the database:
 
 ```
 npx prisma migrate dev
 ```
 
-**Run the application**
+**Run the application**\
 Run the application with the below command:
 
 ```
