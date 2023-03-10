@@ -12,10 +12,6 @@ const uploadCsv = async (req, res) => {
       `./uploads/${filename}`,
       reportData
     );
-
-    if (!report) {
-    }
-
     return res.json(report);
   } catch (error) {
     console.log(`Error: ${error.message}`);
