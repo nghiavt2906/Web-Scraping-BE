@@ -1,14 +1,16 @@
 const db = require("../db");
 const readCsv = require("../utils/readCsv");
 const searchResultService = require("./searchResults");
-const SEARCH_STATUS = require("../constants/searchStatus");
 const Crawler = require("./crawler");
+
+const SEARCH_STATUS = require("../constants/searchStatus");
+const errorCodes = require("../constants/errorCodes");
 
 const handleCsvUpload = async (csvPath, reportData) => {
   const keywords = await readCsv(csvPath);
 
   if (keywords.length > 100 || keywords.length === 0) {
-    throw new Error("File.Size.Error");
+    throw new Error(errorCodes.FILE_SIZE_ERROR);
   }
 
   const insertedReport = await createReport(reportData);

@@ -1,6 +1,8 @@
 const reportService = require("../services/report");
 const searchResultsService = require("../services/searchResults");
 
+const errorCodes = require("../constants/errorCodes");
+
 const uploadCsv = async (req, res) => {
   const filename = req.file.filename;
   const reportData = { name: filename.split(".")[0], userId: req.user.id };
@@ -19,7 +21,7 @@ const uploadCsv = async (req, res) => {
     console.log(`Error: ${error.message}`);
 
     switch (error.message) {
-      case "File.Size.Error":
+      case errorCodes.FILE_SIZE_ERROR:
         return res
           .status(400)
           .send("File size must be from 1 to 100 keywords!");
